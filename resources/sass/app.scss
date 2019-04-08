@@ -1,0 +1,47 @@
+@tailwind preflight;
+
+@tailwind components;
+
+@import "variables";
+
+@import "~vue-snotify/styles/material";
+@import '~bootstrap/scss/bootstrap';
+
+@import url('https://fonts.googleapis.com/css?family=Raleway:300,400,600');
+
+a {
+    text-decoration: none !important;
+    outline: none !important;
+    transition: 0.5s all !important;
+}
+
+a:hover {
+    transition: 0.5s all !important;
+    text-decoration: none !important;
+}
+
+body {
+    background: #fff;
+}
+
+.c-navbar {
+    background: #eee;
+    box-shadow: 0px -7px 2px 7px rgba(0, 0, 0, .9) !important;
+}
+
+.dropdown-item:hover {
+    // color: #fff !important;
+    background: #888 !important;
+}
+
+.c-link:hover {
+    color: #38a89d;
+}
+
+.router-link-exact-active {
+    color: #38a89d !important;
+    font-weight: 800 !important;
+    // #38a89d
+}
+
+@tailwind utilities;
