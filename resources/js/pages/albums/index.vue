@@ -1,19 +1,19 @@
 <template>
     <div>
         <div class="flex items-center justify-between">
-            <h2>Albums</h2>
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">Create Album</button>
+            <h2 class="text-grey">Albums</h2>
+            <template v-if="currentUser">
+                <button v-if="currentUser.role_id === 1" type="button" class="btn btn-primary flex" data-toggle="modal" data-target="#exampleModalCenter">Create Album<i class="material-icons inline-block ml-2" style="vertical-align: middle;">library_music</i></button>
+            </template>
         </div>
-        <hr>
+        <hr class="" style="background: rgba(255,255,255,0.2);">
         <!-- Modal -->
         <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
-                    <div class="modal-header card-header ">
+                    <div class="modal-header card-header">
                         <h5 class="modal-title" id="exampleModalCenterTitle">Create Album</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                        </button>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     </div>
                     <div class="modal-body">
                         <form @submit.prevent="addAlbum()" class="mt-2" enctype="multipart/form-data">
@@ -21,7 +21,7 @@
                                 <input type="text" class="form-control" placeholder="Add Album" v-model="album" required>
                             </div>
                             <div class="form-group">
-                                <button class="btn bg-grey btn-small" @click.prevent="onPickFile">Upload Image</button>
+                                <button class="btn bg-grey btn-small" @click.prevent="onPickFile">Upload <i class="material-icons block ml-2" style="vertical-align: middle;">image</i></button>
                                 <input type="file" style="display: none" ref="fileInput" accept="image/*" @change="onFilePicked">
                             </div>
                             <div class="form-group relative inline-block c-form-group" v-if="image" style="height: 150px">
@@ -30,42 +30,33 @@
                             </div>
                             <div class="modal-footer pb-0">
                                 <input type="submit" class="btn bg-pink-dark text-white px-6" value="Add Album">
-                                <button type="button" class="btn bg-primary text-white" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn bg-primary text-white" data-dismiss="modal" @click="removeImage()">Close</button>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- <div class="row mb-5">
-            <div class="col-md-12">
-                <form @submit.prevent="addAlbum()" class="mt-2" enctype="multipart/form-data">
-                    <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Add Album" v-model="album" required>
-                    </div>
-                    <div class="form-group">
-                        <button class="btn bg-grey btn-small" @click.prevent="onPickFile">Upload Image</button>
-                        <input type="file" style="display: none" ref="fileInput" accept="image/*" @change="onFilePicked">
-                    </div>
-                    <div class="form-group" v-if="image">
-                        <img :src="image" style="height: 130px;">
-                    </div>
-                    <input type="submit" class="btn bg-pink-dark text-white px-6" value="Add Album">
-                </form>
-            </div>
-        </div> -->
         <div class="row mt-16">
             <div class="col-md-4 c-column" v-for="album in albums" :key="album.id">
-                <div class="card mb-3 w-full border-0">
-                    <!-- <img :src="user.image" class="card-img-top"> -->
+                <div class="card mb-8 w-full border-0">
                     <div class="card-body">
-                        <!-- <h5 class="card-title">{{ album.image }}</h5> -->
-                        <div class="block c-profile rounded-full shadow-md mx-auto">
+                        <div class="block c-profile relative rounded-full mx-auto">
                             <img :src="'storage/' + album.image" alt="Image" class="block w-full rounded-full h-full c-profile-image">
+                            <!-- <div class="block absolute rounded-full c-circle">
+                                <span></span>
+                            </div> -->
                         </div>
-                        <div class="mt-8 text-center">
-                            <h3 class="header">{{ album.name }}</h3>
-                            <p class="card-text text-red">{{ album.created_at | dateFormat }}</p>
+                        <hr class="mt-8" style="background: rgba(255,255,255,0.2);">
+                        <div class="mt-4 text-left flex items-start justify-between">
+                            <div>
+                                <h3 class="header text-white">{{ album.name }}</h3>
+                                <p class="card-text" style="color: #38a89d;">{{ album.created_at | dmyFormat }}</p>
+                            </div>
+                            <template v-if="album">
+                                <button @click.prevent="albumId(album.uuid)" class="btn btn-sm bg-teal-dark text-white no-underline outline-none">Explore</button>
+                            </template>
+                            <!-- <button class="btn btn-sm bg-teal-dark text-white" :to="album.uuid">Explore</button> -->
                         </div>
                     </div>
                 </div>
@@ -76,6 +67,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+
 export default {
     data: () => ({
         album: '',
@@ -84,8 +76,13 @@ export default {
         show: false,
     }),
 
-    mounted() {
-        this.$store.dispatch('fetchUsers')
+    created () {
+        console.log('Mounted')
+        this.$store.dispatch('albums/fetchAlbums')
+        // this.$store.dispatch('fetchUsers')
+        // setTimeout(() => {
+        //     this.$store.dispatch('albums/fetchAlbums')
+        // }, 1000)
     },
 
     methods: {
@@ -116,44 +113,40 @@ export default {
             this.image = ''
         },
 
+        albumId (id) {
+            // this.$store.dispatch('fetchSingleAlbum')
+            this.$router.replace({
+                name: 'singleAlbum',
+                params: {
+                    albumId: id
+                }
+            })
+        },
+
         addAlbum () {
-            this.$store.dispatch('addAlbum', this.content)
-            this.album = ''
-            this.image = ''
+            this.$store.dispatch('albums/addAlbum', this.content)
+            setTimeout(() => {
+                this.album = ''
+                this.image = ''
+            }, 100)
         },
     },
 
     computed: {
-        ...mapGetters([
-            'users',
-            'albums'
-        ])
+        ...mapGetters('albums', {
+            albums: 'albums',
+            singleAlbum: 'singleAlbum',
+        }),
+
+        currentUser () {
+            return this.$store.getters.currentUser
+        }
     }
 }
 </script>
 
 <style scoped>
-.c-profile {
-    width: 250px;
-    height: 250px;
-}
-.c-profile-image {
-    object-fit: cover;
-}
-.c-column:nth-child(even) .card {
-    background: #f1f5f8;
-}
-.c-cross-button {
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    padding: 2px 10px;
-    background: rgba(255, 255, 255, 0.5);
-    transition: opacity .15s linear;
-    display: none;
-}
-.c-form-group:hover .c-cross-button {
-    transition: opacity .15s linear;
-    display: block;
+.card {
+    background: #222 !important;
 }
 </style>

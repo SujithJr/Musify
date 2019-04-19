@@ -1,17 +1,18 @@
 let getters = {
-    users: state => {
-        return state.users
-    },
-    currentUser: state => {
-        return state.currentUser
-    },
-    isLoggedIn: state => {
-        // if (state.token) return true
-        return state.token ? true : false
-    },
-    albums: state => {
-        return state.albums
-    }
+
+
+    // artists: state => {
+    //     return state.artists
+    // },
+    // musicians: state => {
+    //     return state.musicians
+    // },
+    // directors: state => {
+    //     return state.directors
+    // },
+    // loading: state => {
+    //     return state.loading
+    // }
 }
 
 export default getters

@@ -4,12 +4,29 @@ Vue.use(VueRouter);
 
 const router = new VueRouter({
     mode: 'history',
+    saveScrollPosition: true,
     routes: [
-        // { path: '/login' },
         {
-            path: '/albums',
+            path: '/',
+            name: 'home',
+            component: require('./pages/home/index.vue').default,
+            meta: {
+                requiresAuth: true
+            }
+        },
+        {
+            path: '/album',
             name: 'albums',
             component: require('./pages/albums/index.vue').default,
+            meta: {
+                requiresAuth: true
+            }
+        },
+        {
+            path: '/album/:albumId/single',
+            name: 'singleAlbum',
+            component: require('./pages/albums/_id.vue').default,
+            props: true,
             meta: {
                 requiresAuth: true
             }
@@ -31,6 +48,22 @@ const router = new VueRouter({
             }
         },
         {
+            path: '/musician/:musicianId/single',
+            name: 'singleMusician',
+            component: require('./pages/musicians/_id.vue').default,
+            meta: {
+                requiresAuth: true
+            }
+        },
+        {
+            path: '/director',
+            name: 'directors',
+            component: require('./pages/directors/index.vue').default,
+            meta: {
+                requiresAuth: true
+            }
+        },
+        {
             path: '/login',
             name: 'login',
             component: require('./pages/user/login/index.vue').default,
@@ -41,7 +74,10 @@ const router = new VueRouter({
         // { path: '/login' },
         {
             path: '*',
-            redirect: '/albums'
+            redirect: '/',
+            meta: {
+                requiresAuth: true
+            }
         },
     ]
 })

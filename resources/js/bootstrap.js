@@ -1,4 +1,3 @@
-
 window._ = require('lodash');
 
 /**
@@ -13,7 +12,6 @@ try {
 
     require('bootstrap');
 } catch (e) {}
-
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
  * to our Laravel back-end. This library automatically handles sending the
@@ -23,7 +21,6 @@ try {
 window.axios = require('axios');
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-// window.axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('accessToken')
 
 /**
  * Next we will register the CSRF Token as a common header with Axios so that
@@ -38,6 +35,10 @@ if (token) {
 } else {
     console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
 }
+
+let userHeader = document.head.querySelector('meta[name="user"]')
+window.user = null
+if (userHeader) if (userHeader.content) window.user = JSON.parse(userHeader.content);
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening

@@ -1,10 +1,12 @@
 let state = {
-    users: [],
-    currentUser: null,
-    token: localStorage.getItem('accessToken') || null,
-    albums: [],
-    success: null,
-    error: null
+
+
+    // artists: [],
+    // musicians: [],
+    // directors: [],
+    // success: null,
+    // error: null,
+    // loading: false
 }
 
 export default state

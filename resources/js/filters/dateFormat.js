@@ -6,3 +6,9 @@ Vue.filter('dateFormat', function (value) {
         return moment(String(value)).utc().local().format('DD/MM/YYYY')
     }
 })
+
+Vue.filter('dmyFormat', function (value) {
+    if (value) {
+        return moment(String(value)).utc().local().format('MMMM Do, YYYY')
+    }
+})

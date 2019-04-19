@@ -23,8 +23,8 @@ $factory->define(User::class, function (Faker $faker) {
         // 'email' => 'james@gmail.com',
         'email_verified_at' => now(),
         'password' => Hash::make('test123456'), // password
-        'role_id' => 2,
-        'image' => $faker->imageUrl(),
+        'role_id' => 3,
+        'image' => $faker->image('public/storage', 1024, 720, 'fashion', false, false),
         'remember_token' => Str::random(10),
     ];
 });

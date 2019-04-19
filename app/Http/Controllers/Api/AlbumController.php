@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Validator;
 class AlbumController extends Controller
 {
 
-    public function create(Request $request, Albums $albums)
+    public function create (Request $request, Albums $albums)
     {
         $this->authorize('isAdmin', $albums);
 
@@ -41,9 +41,14 @@ class AlbumController extends Controller
 
     }
 
-    public function fetchAll(Albums $albums) {
+    public function index (Albums $albums) {
         $albums = Albums::all();
         return response($albums, 200);
+    }
+
+    public function get ($album) {
+        $albumData = Albums::where('uuid', $album)->firstOrFail();
+        return response($albumData, 200);
     }
 
 }

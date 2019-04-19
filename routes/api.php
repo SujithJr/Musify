@@ -25,14 +25,28 @@ Route::group(['middleware' => ['json.response']], function () {
 
     // private routes
     Route::namespace('Api')->middleware('auth:api')->group(function () {
+
+        // Create "Artist", "Musicians", "Directors"
+
+        // Users model
         Route::get('users/me', 'UserController@index');
         Route::get('/users', 'UserController@fetchAll');
         Route::post('/logout', 'AuthController@logout')->name('logout');
 
         // Albums CRUD
         Route::post('/albums', 'AlbumController@create');
-        Route::get('/albums', 'AlbumController@fetchAll');
-        Route::get('/albums/{album}', 'AlbumController@fetchAll');
+        Route::get('/albums', 'AlbumController@index');
+        Route::get('/albums/{album}', 'AlbumController@get');
+
+        // Artists CRUD
+        Route::get('/artists', 'ArtistController@index');
+        // Route::get('/artists/{artist}', 'ArtistController@fetchAll');
+
+        // Musicians CRUD
+        Route::get('/musicians', 'MusicianController@index');
+
+        // Directors CRUD
+        Route::get('/directors', 'DirectorController@index');
     });
 
 });

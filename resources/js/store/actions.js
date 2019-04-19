@@ -1,84 +1,118 @@
+import router from '../routes'
+
 let actions = {
-    login ({ commit, dispatch }, payload) {
-        try {
-            axios.post('api/login', payload).then((response) => {
-                console.log('Response: ', response)
-                dispatch('storeToken', response.data.access_token)
-                commit('STORE_TOKEN', response.data.access_token)
-                axios.defaults.headers.common['Authorization'] = 'Bearer ' + response.data.access_token
-                dispatch('currentUser')
-                router.push('/albums')
-            })
-        } catch (error) {
-            console.log(error.response)
-        }
-    },
 
-    storeToken ({ commit }, payload) {
-        localStorage.setItem('accessToken', payload)
-    },
 
-    async currentUser ({ commit }) {
-        try {
-            const user = await axios.get('api/users/me')
-            console.log(user)
-            commit('CURRENT_USER', user.data)
-        } catch (error) {
-            console.log(error.response)
-        }
-    },
 
-    async fetchUsers ({ commit }) {
-        try {
-            const users = await axios.get('api/users')
-            console.log(users)
-            commit('FETCH_USERS', users.data)
-        } catch (error) {
-            console.log(error.response)
-        }
-    },
 
-    logout ({ commit }) {
-        axios.post('api/logout').then((response) => {
-            localStorage.removeItem('accessToken')
-            commit('DESTROY_TOKEN')
-            router.replace('/login')
-        }).catch (error => {
-            localStorage.removeItem('accessToken')
-            commit('DESTROY_TOKEN')
-            router.replace('/login')
-            console.log(error)
-        })
-    },
+    // async createArtist ({ commit, dispatch, getters }, payload) {
+    //     try {
+    //         if (!getters.loading) {
+    //             commit('LOADING', true)
+    //         }
+    //         const artist = await axios.post('api/register', payload)
+    //         console.log(artist)
+    //         dispatch('success', artist.data)
+    //         dispatch('fetchArtists')
+    //         commit('LOADING', false)
+    //     } catch (error) {
+    //         commit('LOADING', false)
+    //         console.log(error.response)
+    //     }
+    // },
 
-    async addAlbum ({ commit, dispatch }, payload) {
-        try {
-            const album = await axios.post('api/albums', payload)
-            console.log('Finall: ', album)
-            dispatch('fetchAlbums')
-        } catch (error) {
-            console.log(error.response)
-        }
-    },
+    // async fetchArtists ({ commit, getters }) {
+    //     try {
+    //         if (!getters.loading) {
+    //             commit('LOADING', true)
+    //         }
+    //         const artists = await axios.get('api/artists')
+    //         console.log('Artistsssss: ', artists)
+    //         commit('FETCH_ARTISTS', artists.data)
+    //         commit('LOADING', false)
+    //     } catch (error) {
+    //         commit('LOADING', false)
+    //         console.log('ERROR: ', error.response)
+    //         commit('ERROR_MSG', error)
+    //     }
+    // },
 
-    async fetchAlbums ({ commit }) {
-        try {
-            const albums = await axios.get('api/albums')
-            console.log(albums)
-            commit('FETCH_ALBUMS', albums.data)
-        } catch (error) {
-            console.log('ERROR: ', error.response)
-            commit('ERROR_MSG', error)
-        }
-    },
+    // async createMusician ({ commit, dispatch, getters }, payload) {
+    //     try {
+    //         if (!getters.loading) {
+    //             commit('LOADING', true)
+    //         }
+    //         const musician = await axios.post('api/register', payload)
+    //         console.log(musician)
+    //         dispatch('success', musician.data)
+    //         dispatch('fetchMusician')
+    //         commit('LOADING', false)
+    //     } catch (error) {
+    //         commit('LOADING', false)
+    //         console.log(error.response)
+    //     }
+    // },
 
-    success ({ commit }, payload) {
-        commit('SUCCESS_MSG', payload)
-    },
+    // async fetchMusicians ({ commit, getters }) {
+    //     try {
+    //         if (!getters.loading) {
+    //             commit('LOADING', true)
+    //         }
+    //         const musician = await axios.get('api/musicians')
+    //         console.log('Musicians: ', musician)
+    //         commit('FETCH_MUSICIANS', musician.data)
+    //         commit('LOADING', false)
+    //     } catch (error) {
+    //         commit('LOADING', false)
+    //         console.log('ERROR: ', error.response)
+    //         commit('ERROR_MSG', error)
+    //     }
+    // },
 
-    error ({ commit }, payload) {
-        commit('ERROR_MSG', payload)
-    }
+    // async createDirector ({ commit, dispatch, getters }, payload) {
+    //     try {
+    //         if (!getters.loading) {
+    //             commit('LOADING', true)
+    //         }
+    //         const director = await axios.post('api/register', payload)
+    //         console.log(director)
+    //         dispatch('success', director.data)
+    //         dispatch('fetchDirectors')
+    //         commit('LOADING', false)
+    //     } catch (error) {
+    //         commit('LOADING', false)
+    //         console.log(error.response)
+    //     }
+    // },
+
+    // async fetchDirectors ({ commit, getters }) {
+    //     console.log('Yoo Director')
+    //     try {
+    //         if (!getters.loading) {
+    //             commit('LOADING', true)
+    //         }
+    //         const directors = await axios.get('api/directors')
+    //         console.log('Directors: ', directors)
+    //         commit('FETCH_DIRECTORS', directors.data)
+    //         commit('LOADING', false)
+    //     } catch (error) {
+    //         commit('LOADING', false)
+    //         console.log('ERROR: ', error.response)
+    //         commit('ERROR_MSG', error)
+    //     }
+    // },
+
+    // async loading ({ commit }, payload) {
+    //     commit('LOADING', payload)
+    // },
+
+    // async success ({ commit }, payload) {
+    //     commit('SUCCESS_MSG', payload)
+    // },
+
+    // async error ({ commit }, payload) {
+    //     commit('ERROR_MSG', payload)
+    // }
 }
 
 export default actions

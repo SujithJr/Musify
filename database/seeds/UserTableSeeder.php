@@ -11,6 +11,6 @@ class UserTableSeeder extends Seeder
      */
     public function run()
     {
-        $users = factory(App\User::class, 20)->create();
+        $users = factory(App\User::class, 2)->create();
     }
 }

@@ -16,4 +16,5 @@ mix.js('resources/js/app.js', 'public/js')
     .sass('resources/sass/app.scss', 'public/css').options({
         processCssUrls: false,
         postCss: [tailwindcss('./tailwind.js')]
-    });
+    })
+    .copy('node_modules/material-icons/css/material-icons.min.css', 'public/css/material-icons.min.css');

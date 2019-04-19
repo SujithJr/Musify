@@ -18,6 +18,7 @@ class CreateAlbumsTable extends Migration
             $table->uuid('uuid')->unique();
             $table->string('name');
             $table->string('image')->nullable();
+            $table->longText('description')->nullable();
             $table->bigInteger('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();

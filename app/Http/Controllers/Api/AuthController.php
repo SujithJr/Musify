@@ -15,45 +15,34 @@ class AuthController extends Controller
 
     public function register (Request $request)
     {
-
-        // $validator = Validator::make($request->all(), [
-        //     'name' => 'required|max:255',
-        //     'email' => 'required|email|max:255',
-        //     'password' => 'required|min:6',
-        //     'role_id' => 'required',
-        // ]);
-
-        // if ($validator->fails())
-        // {
-        //     return response(['errors'=>$validator->errors()->all()], 422);
-        // }
-
-        // $request['password'] = Hash::make($request['password']);
-        // // $request['remember_token'] = Str::random(10);
-        // $user = User::create($request->toArray());
-
-        // $token = $user->createToken('Laravel Password Grant Client')->accessToken;
-        // $response = ['token' => $token];
-
-        // return response($response, 200);
         $validator = Validator::make($request->all(), [
-            'name' => 'required|max:255',
-            'email' => 'required|email|max:255',
-            'password' => 'required|min:6',
-            'role_id' => 'required',
+            'name'      => 'required',
+            'email'     => 'required',
+            'password'  => 'required',
+            'image'     => 'required',
+            'role_id'   => 'required'
         ]);
 
         if ($validator->fails())
         {
             return response(['errors'=>$validator->errors()->all()], 422);
         }
-        // $request['password'] = Hash::make($request['password']);
-        return User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'role_id' => $request->role_id
+
+        if ($request->hasFile('image'))
+        {
+            $imageName = $request->image->getClientOriginalName();
+            $request->image->storeAs('public', $imageName);
+        }
+
+        User::create([
+            'name'      => $request->name,
+            'email'     => $request->email,
+            'password'  => Hash::make($request->password),
+            'image'     => $request->image->getClientOriginalName(),
+            'role_id'   => $request->role_id
         ]);
+
+        return response("". $request->name ." profile created successfully!", 200);
 
     }
 

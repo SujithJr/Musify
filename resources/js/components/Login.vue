@@ -12,11 +12,11 @@
                         <input type="text" id="role" class="form-control" placeholder="Role" v-model="role_id" required>
                     </div> -->
                     <div class="form-group">
-                        <label for="email">E-mail</label>
+                        <label for="email" class="text-grey">E-mail</label>
                         <input type="email" id="email" class="form-control" placeholder="user@example.com" v-model="email" required>
                     </div>
                     <div class="form-group">
-                        <label for="password">Password</label>
+                        <label for="password" class="text-grey">Password</label>
                         <input type="password" id="password" class="form-control" v-model="password" required>
                     </div>
                     <button type="submit" class="btn bg-green text-white">Sign in</button>
